@@ -1,7 +1,10 @@
 const UserService = require("../Services/UserService");
 const MiscService = require("../Services/MiscServices");
+const { initTenants } = require('../Config/initDb');
+
 
 module.exports = {
+
   doSignup: async (req, res, next) => {
     let user = req.body;
     try {
@@ -18,6 +21,7 @@ module.exports = {
       res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
     }
   },
+
   doLogin: async (req, res) => {
     let user = req.body;
     try {
@@ -36,4 +40,15 @@ module.exports = {
       res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
     }
   },
+
+  changeDB: async (req, res) => {
+    let query = req.body;
+    console.log(query, "query");
+    // try {
+    //   await initTenants(query);
+    // } catch (error) {
+    //   res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
+    // }
+  }
+
 };

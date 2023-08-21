@@ -1,4 +1,4 @@
-const User = require("../Model/userModel");
+const { UserModel } = require("../Model/userModel");
 const log4js = require("log4js");
 const logger = log4js.getLogger();
 logger.level = "debug";
@@ -6,7 +6,7 @@ logger.level = "debug";
 module.exports = {
   getUser: (email) => {
     try {
-      let data = User.findOne({ email });
+      let data = UserModel.findOne({ email });
       if (!data) {
         throw error;
       }
@@ -16,9 +16,9 @@ module.exports = {
     }
   },
   createUser: (user) => {
-    return User.create(user);
+    return UserModel.create(user);
   },
   getUserByid: (id) => {
-    return User.findById(id).select("-password")
+    return UserModel.findById(id).select("-password")
   }
 };
