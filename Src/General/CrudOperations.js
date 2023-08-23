@@ -22,15 +22,25 @@ const create = async (table, body) => {
     }
 }
 
+const update = async (table, body, filter) => {
+    try {
+        const Modal = await getModalPath(table);
+        const doc = await Modal.findOneAndUpdate(filter, body, { new: true });
+        return doc;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 const list = async (table, body) => {
     try {
         const Modal = await getModalPath(table);
-        return await Modal.find();
+        return await Modal.find(body);
     } catch (error) {
         throw new Error(error);
     }
 }
 
 module.exports = {
-    create, list
+    create, list, update
 }
