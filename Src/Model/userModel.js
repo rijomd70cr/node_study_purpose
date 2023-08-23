@@ -3,10 +3,10 @@ const { Schema } = mongoose;
 
 const userSchema = Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    mobileNo: { type: String, required: false },
+    mobileNo: { type: String },
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   {
