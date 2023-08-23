@@ -1,6 +1,6 @@
 const UserService = require("../Services/UserService");
 const MiscService = require("../Services/MiscServices");
-const { initTenants } = require('../Config/initDb');
+const { connectMultiDB } = require('../Config/db');
 
 
 module.exports = {
@@ -43,12 +43,12 @@ module.exports = {
 
   changeDB: async (req, res) => {
     let query = req.body;
-    console.log(query, "query");
-    // try {
-    //   await initTenants(query);
-    // } catch (error) {
-    //   res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
-    // }
+    try {
+      await connectMultiDB(query.dbName);
+      res.status(200).json(MiscService.response(200, process.env.SUCCESS, {}));
+    } catch (error) {
+      res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
+    }
   }
 
 };

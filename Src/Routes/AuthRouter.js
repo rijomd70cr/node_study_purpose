@@ -7,6 +7,6 @@ const { login, signup } = require('../Validations/AuthValidation');
 const router = express.Router();
 router.post('/signup', validate(signup), doSignup);
 router.post('/login', validate(login), doLogin);
-router.get('/changeDB', changeDB);
+router.post('/changeDB', changeDB);
 
 module.exports = router;

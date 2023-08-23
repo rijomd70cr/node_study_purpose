@@ -3,24 +3,27 @@ const mongoose = require("mongoose");
 const mongoOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  // poolSize: 10
 }
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL_MULTI);
-    console.log("MongoDB Connected");
+    const connection = await mongoose.connect(process.env.MONGO_URL_MULTI, mongoOptions);
+    if (connection) {
+      console.log("Production - MongoDB Connected");
+      return connection;
+    }
   } catch (error) {
     console.log(error);
     process.exit();
   }
 };
 
-const connectMultiDB = async () => {
+const connectMultiDB = async (newDatabaseName) => {
   try {
-    const connection = await mongoose.connect(process.env.MONGO_URL_MULTI, mongoOptions);
-    if (connection) {
-      console.log('Multi MongoDB connected');
-      return connection;
+    if (mongoose.connection) {
+      mongoose.connection.db = await mongoose.connection.client.db(newDatabaseName);
+      console.log(`${newDatabaseName} - MongoDB Connected"`);
     }
   } catch (error) {
     console.log(error);
