@@ -41,6 +41,16 @@ const list = async (table, body) => {
     }
 }
 
+const deleteData = async (table, filter) => {
+    try {
+        const Modal = await getModalPath(table);
+        const doc = await Modal.findOneAndDelete(filter);
+        return doc;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 module.exports = {
-    create, list, update
+    create, list, update, deleteData
 }
