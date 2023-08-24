@@ -24,9 +24,14 @@ const insertUser = async (req, res) => {
 
 
 const friendList = async (req, res) => {
-    let user = req.body || {};
+    const query = req.body || {};
+    let user = req.user;
+    console.log(user, "user");
     try {
-        let friendList = await list(modelName, user);
+        query.email = { $ne: user.email };
+        console.log(query, "query");
+
+        let friendList = await list(modelName, query);
         res.status(200).json(MiscService.response(200, process.env.SUCCESS, { friendList: friendList }));
     } catch (error) {
         console.log(error)

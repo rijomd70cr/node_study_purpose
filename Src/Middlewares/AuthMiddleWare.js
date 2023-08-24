@@ -10,15 +10,15 @@ module.exports = {
     ) {
       try {
         token = req.headers.authorization.split(" ")[1];
-        const decoded = await MiscServices.verifyToken(token)
+        const decoded = await MiscServices.verifyToken(token);
         let user = await UserService.getUserByid(decoded.id)
-
         if (user) {
           req.user = user;
           req.user.token = token
         }
         next();
       } catch (error) {
+        console.log(error, "error");
         res.status(401).json(MiscServices.response(401, process.env.UN_AUTHORIZED, {}));
       }
     } else {

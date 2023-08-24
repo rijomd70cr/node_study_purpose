@@ -8,7 +8,8 @@ module.exports = {
     const object = pick(req, Object.keys(validSchema));
     const { value, error } = Joi.compile(validSchema).validate(object);
     if (error) {
-      res.status(400).json(MiscService.response(400, error.details[0].message, {}));
+      console.log(error)
+      res.status(400).json(MiscService.response(400, error?.details[0].message, {}));
     } else {
       next();
     }

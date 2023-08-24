@@ -18,7 +18,8 @@ module.exports = {
             .status(201)
             .json(MiscService.response(200, process.env.SUCCESS, { token, user: { name: user.name, email: user.email } })));
     } catch (error) {
-      res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
+      console.log(error)
+      res.status(400).json(MiscService.response(400, error.error || process.env.WRONG_SOMETHING, {}));
     }
   },
 
