@@ -1,5 +1,7 @@
-const MiscService = require("../Services/MiscServices");
-const { create, list, update, deleteData } = require("../General/CrudOperations");
+const MiscService = require("../../Services/MiscServices");
+const { getUserList } = require("../../Services/UserService");
+
+const { create, update, deleteData } = require("../../General/CrudOperations");
 
 const modelName = "User";
 
@@ -27,10 +29,9 @@ const insertUser = async (req, res) => {
 const friendList = async (req, res) => {
     const query = req.body || {};
     let user = req.user;
-    const fields = ['email', 'name', 'mobileNo'];
     try {
-        query.email = { $ne: user.email };
-        let friendList = await list(modelName, query, fields);
+        query._id = { $ne: user._id };
+        let friendList = await getUserList(query);
         res.status(200).json(MiscService.response(200, process.env.SUCCESS, { friendList: friendList }));
     } catch (error) {
         console.log(error)
@@ -49,6 +50,9 @@ const deleteUser = async (req, res) => {
         res.status(400).json(MiscService.response(400, error.message || process.env.WRONG_SOMETHING, {}));
     }
 }
+
+
+
 
 module.exports = {
     insertUser, friendList, deleteUser

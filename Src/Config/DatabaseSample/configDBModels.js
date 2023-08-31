@@ -9,6 +9,11 @@ const modelsPath = [
         modalName: "Employee",
         schemaName: "employeeSchema",
         path: "employeeModel"
+    },
+    {
+        modalName: "Request",
+        schemaName: "requestSchema",
+        path: "requestModal"
     }
 ];
 

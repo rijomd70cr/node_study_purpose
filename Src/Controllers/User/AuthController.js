@@ -1,6 +1,6 @@
-const UserService = require("../Services/UserService");
-const MiscService = require("../Services/MiscServices");
-const { connectMultiDB } = require('../Config/db');
+const UserService = require("../../Services/UserService");
+const MiscService = require("../../Services/MiscServices");
+const { connectMultiDB } = require('../../Config/db');
 
 
 module.exports = {
