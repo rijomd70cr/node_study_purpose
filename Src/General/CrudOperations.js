@@ -32,10 +32,10 @@ const update = async (table, body, filter) => {
     }
 }
 
-const list = async (table, body) => {
+const list = async (table, body, fields) => {
     try {
         const Modal = await getModalPath(table);
-        return await Modal.find(body);
+        return await Modal.find(body, fields);
     } catch (error) {
         throw new Error(error);
     }
