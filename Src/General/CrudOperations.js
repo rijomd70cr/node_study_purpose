@@ -51,6 +51,16 @@ const deleteData = async (table, filter) => {
     }
 }
 
+const getSingleData = async (table, filter) => {
+    try {
+        const Modal = await getModalPath(table);
+        const doc = await Modal.findOne(filter);
+        return doc;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 module.exports = {
-    create, list, update, deleteData
+    create, list, update, deleteData, getSingleData
 }

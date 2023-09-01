@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const requestSchema = Schema(
     {
-        status: { type: String },  // Requested ,Rejected , Accepted
+        status: { type: String },  // Requested ,Rejected , Accepted ,Cancelled
         senderID: { type: Schema.Types.ObjectId, ref: 'User' },
         recieverID: { type: Schema.Types.ObjectId, ref: 'User' }
     },
