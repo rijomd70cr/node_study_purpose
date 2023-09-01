@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertUser, friendList, deleteUser } = require('../Controllers/User/UserController');
-const { requestFriend } = require('../Controllers/User/RequestController');
+const { requestFriend, myRequests } = require('../Controllers/User/RequestController');
 
 const router = express.Router();
 
@@ -9,5 +9,7 @@ router.get('/friendList', friendList)
 router.delete('/deleteUser', deleteUser)
 
 router.post('/requestFriend', requestFriend)
+router.post('/myRequests', myRequests)
+
 
 module.exports = router 

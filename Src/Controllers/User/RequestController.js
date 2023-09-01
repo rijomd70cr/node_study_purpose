@@ -1,5 +1,7 @@
 const MiscService = require("../../Services/MiscServices");
-const { create, update, getSingleData } = require("../../General/CrudOperations");
+const { getMyRequest } = require("../../Services/RequestService");
+
+const { create, update, getSingleData, list } = require("../../General/CrudOperations");
 
 const modelName = "Request";
 
@@ -30,4 +32,15 @@ const requestFriend = async (req, res) => {
     }
 }
 
-module.exports = { requestFriend }
+const myRequests = async (req, res) => {
+    try {
+        const query = { recieverID: req.user._id, status: "Requested" }
+        const response = await getMyRequest(query);
+        res.status(200).json(MiscService.response(200, process.env.SUCCESS, response));
+    } catch (error) {
+        console.log(error)
+        res.status(400).json(MiscService.response(400, error.message || process.env.WRONG_SOMETHING, {}));
+    }
+}
+
+module.exports = { requestFriend, myRequests }
