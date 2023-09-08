@@ -31,7 +31,7 @@ const friendList = async (req, res) => {
     let user = req.user;
     try {
         query._id = { $ne: user._id };
-        let friendList = await getUserList(query);
+        let friendList = await getUserList(query,user._id);
         res.status(200).json(MiscService.response(200, process.env.SUCCESS, { friendList: friendList }));
     } catch (error) {
         console.log(error)
