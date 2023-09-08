@@ -36,7 +36,7 @@ const myRequests = async (req, res) => {
     try {
         const query = { recieverID: req.user._id, status: "Requested" }
         const response = await getMyRequest(query);
-        res.status(200).json(MiscService.response(200, process.env.SUCCESS, response));
+        res.status(200).json(MiscService.response(200, process.env.SUCCESS, { requestList: response }));
     } catch (error) {
         console.log(error)
         res.status(400).json(MiscService.response(400, error.message || process.env.WRONG_SOMETHING, {}));
