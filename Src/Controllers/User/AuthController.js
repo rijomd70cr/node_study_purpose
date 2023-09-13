@@ -27,16 +27,15 @@ module.exports = {
     let user = req.body;
     try {
       let User = await UserService.getUser(user.email);
-      User
-        ? ((passwordVerification = await MiscService.verifyPassword(
-          user.password,
-          User.password
-        )),
+      if (User) {
+        (passwordVerification = await MiscService.verifyPassword(user.password, User.password)),
           (token = MiscService.generateToken(User._id)),
-          res
-            .status(200)
-            .json(MiscService.response(200, process.env.SUCCESS, { token, user: { email: User.email } })))
-        : res.status(400).json(MiscService.response(400, process.env.NO_USER_FOUND, {}));
+          (selectedItemUser = await MiscService.generateUser(User)),
+        res.status(200).json(MiscService.response(200, process.env.SUCCESS, { token, selectedItemUser }))
+      }
+      else {
+        res.status(400).json(MiscService.response(400, process.env.NO_USER_FOUND, {}));
+      }
     } catch (error) {
       console.log(error)
       res.status(400).json(MiscService.response(400, error.error || process.env.WRONG_SOMETHING, {}));

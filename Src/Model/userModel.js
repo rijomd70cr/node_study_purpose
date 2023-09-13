@@ -5,9 +5,10 @@ const userSchema = Schema(
   {
     name: { type: String },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true},
+    password: { type: String, required: true },
     mobileNo: { type: String },
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    userRole: { type: String },
   },
   {
     timestamps: true,

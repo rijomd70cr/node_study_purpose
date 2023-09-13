@@ -1,5 +1,7 @@
 const becrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require('crypto-js');
+
 module.exports = {
   encryptPassword: (string) => {
     return becrypt.hash(string, 10);
@@ -22,6 +24,20 @@ module.exports = {
       status_code: error_code,
       message: message,
       data: data
+    }
+  },
+  generateUser: async (user) => {
+    try {
+      const encryptionKey = process.env.ENCRYPTUSERKEY;
+      const iv = process.env.INITIALIZATIONVECTOR;
+
+      const { name, email, userRole } = user;
+      const selectedUser = { name, email, userRole };
+
+      const cipher = crypto.AES.encrypt(JSON.stringify(selectedUser), encryptionKey, { iv });
+      return cipher.toString();
+    } catch (error) {
+      throw error
     }
   }
 };
