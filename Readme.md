@@ -25,3 +25,4 @@ UN_AUTHORIZED=
 1. Chat System 
     1.User Permission :- Admin and User 
     2.User Return :- encryption
+    3.Socket Connection

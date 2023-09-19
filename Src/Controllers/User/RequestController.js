@@ -9,9 +9,19 @@ const requestFriend = async (req, res) => {
     let query = req.body.data;
     let user = req.user;
     let response;
+    let recieverID;
+    let senderID;
+    if (query.recieverID) {
+        recieverID = query.recieverID;
+        senderID = user._id;
+    }
+    if (query.senderID) {
+        senderID = query.senderID;
+        recieverID = user._id;
+    }
     try {
         if (query.isModify) {
-            response = await update(modelName, query, { recieverID: query.recieverID, senderID: user._id, });
+            response = await update(modelName, query, { recieverID: recieverID, senderID: senderID, });
         }
         else {
             query.status = "Requested";
