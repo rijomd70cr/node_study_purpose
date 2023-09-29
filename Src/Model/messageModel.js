@@ -3,14 +3,13 @@ const { Schema } = mongoose;
 
 const messageSchema = Schema(
   {
-    users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    chatName: { type: String },
-    isGroupChat: { type: Boolean },
+    sender: { type: Schema.Types.ObjectId, ref: 'User' },
+    messageContent: { type: String },
+    chat: { type: Schema.Types.ObjectId, ref: 'Chat' },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
 module.exports = {
   messageSchema,
   MessageModel: mongoose.model("Message", messageSchema)

@@ -1,11 +1,12 @@
 const { ChatModel } = require("../Model/chatModel");
+const { MessageModel } = require("../Model/messageModel");
+
 
 const findOutExistingChat = async (query) => {
     try {
-        // check by chat name
         if (query?.isGroupChat) { }
         else {
-            const data = ChatModel.find({ users: { $all: query.users } });
+            const data = await ChatModel.find({ users: { $all: query.users } });
             if (data) { return data; }
         }
     } catch (error) {
@@ -13,4 +14,17 @@ const findOutExistingChat = async (query) => {
     }
 };
 
-module.exports = { findOutExistingChat }
+const findOutMessages = async (query) => {
+    try {
+        if (query?.isGroupChat) { }
+        else {
+            const data = await MessageModel.find({ chat: query });
+            if (data) { return data; }
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+
+module.exports = { findOutExistingChat, findOutMessages }
