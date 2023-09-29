@@ -30,7 +30,12 @@ const Server = app.listen(process.env.PORT, () => {
   console.log("Server Running on  Port " + process.env.PORT);
 });
 
-const io = socket(Server); //Initializing socket connction
+const io = socket(Server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+}); //Initializing socket connction
 
 io.on("connection", (socket) => {
   console.log(socket.id, "Connection created");
@@ -48,9 +53,14 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("join_room", (data) => {
+  socket.on("join_room", (data) => { // accepting an event.  join_room : matching name with client side
     console.log(data, "join_room "); //from client id room no 
     socket.join(data);
+  });
+
+  socket.on("send_message", (data) => { // accepting an event.  
+    console.log(data, "send_message ");
+    // socket.join(data);
   });
 
   // socket.use(([event, ...args], next) => {   // middileware auth or not 
