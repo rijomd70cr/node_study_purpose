@@ -1,4 +1,4 @@
-const { requestModel } = require("../Model/requestModal");
+const { requestModel } = require("../Model/requestModel");
 
 const getMyRequest = async (query) => {
     try {

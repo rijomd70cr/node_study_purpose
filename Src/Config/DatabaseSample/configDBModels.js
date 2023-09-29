@@ -13,12 +13,12 @@ const modelsPath = [
     {
         modalName: "Request",
         schemaName: "requestSchema",
-        path: "requestModal"
+        path: "requestModel"
     },
     {
         modalName: "Message",
         schemaName: "messageSchema",
-        path: "messageModal"
+        path: "messageModel"
     },
     {
         modalName: "Chat",
