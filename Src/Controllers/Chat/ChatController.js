@@ -9,9 +9,9 @@ const myChat = async (req, res) => {
         let roomId = "";
         let myMessages = [];
         const query = {
-            users: [req.user?.id, req.body?.sender],
+            users: [req.user?.id, req.body?.sender?._id],
             isGroupChat: req.body?.isGroupChat,
-            chatName: req.body?.chatName || ""
+            chatName: req.body?.chatName || "",
         };
         const existedData = await findOutExistingChat(query);
         if (existedData?.length > 0) {
@@ -19,6 +19,7 @@ const myChat = async (req, res) => {
             myMessages = await findOutMessages(roomId);
         }
         else {
+            query['usersName'] = [req.user?.name, req.body?.sender?.name];
             const response = await create(modelName, query);
             roomId = response?._id;
         }
