@@ -7,6 +7,7 @@ const socket = require('socket.io');
 const { connectDB } = require('./Src/Config/db');
 const routes = require('./Src/Routes');
 const { notFound, errorHandler } = require("./Src/Middlewares/errorHandler");
+const { AutherizedUser, verifyUser } = require('./Src/Middlewares/AuthMiddleWare');
 
 dotenv.config();
 const corsOptions = {
@@ -37,6 +38,8 @@ const io = socket(Server, {
   }
 }); //Initializing socket connction
 
+io.use(AutherizedUser);
+
 io.on("connection", (socket) => {
   console.log(socket.id, "Connection created");
 
@@ -60,7 +63,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => { // accepting an event.  
     console.log(data, "send_message ");
-    // socket.join(data);
+    socket.to(data.room);
   });
 
   // socket.use(([event, ...args], next) => {   // middileware auth or not 
