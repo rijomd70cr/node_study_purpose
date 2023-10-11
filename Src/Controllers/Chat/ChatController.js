@@ -1,8 +1,10 @@
 const MiscService = require("../../Services/MiscServices");
-const { findOutExistingChat, findOutMessages } = require("../../Services/ChatService");
+const { findOutExistingChat, findOutMessages, createMessages } = require("../../Services/ChatService");
 const { create } = require("../../General/CrudOperations");
 
 const modelName = "Chat";
+const modelMessage = "Message";
+
 
 const myChat = async (req, res) => {
     try {
@@ -16,7 +18,8 @@ const myChat = async (req, res) => {
         const existedData = await findOutExistingChat(query);
         if (existedData?.length > 0) {
             roomId = existedData?.[0]?._id;
-            myMessages = await findOutMessages(roomId);
+            const latestMessages = await findOutMessages(roomId);
+            myMessages = modifyMessage(latestMessages);
         }
         else {
             query['usersName'] = [req.user?.name, req.body?.sender?.name];
@@ -30,4 +33,32 @@ const myChat = async (req, res) => {
     }
 }
 
-module.exports = { myChat }
+const addMessage = async (data) => {
+    try {
+        const response = await create(modelMessage, data);
+        if (response) {
+            const myMessages = await findOutMessages(data.chat);
+            const latestMessages = modifyMessage(myMessages);
+            return latestMessages;
+        }
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+}
+
+const modifyMessage = (myMessages) => {
+    const latestMessages = myMessages.map(item => {
+        return {
+            sender: item.sender?.name,
+            senderID: item.sender?._id?.toString(),
+            chat: item.chat,
+            updatedAt: item.updatedAt,
+            messageContent: item.messageContent,
+            _id: item._id
+        }
+    });
+    return latestMessages;
+}
+
+module.exports = { myChat, addMessage }

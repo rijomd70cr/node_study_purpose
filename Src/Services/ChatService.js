@@ -18,7 +18,7 @@ const findOutMessages = async (query) => {
     try {
         if (query?.isGroupChat) { }
         else {
-            const data = await MessageModel.find({ chat: query });
+            const data = await MessageModel.find({ chat: query }).limit(200).populate("sender", "name");
             if (data) { return data; }
         }
     } catch (error) {

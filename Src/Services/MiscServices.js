@@ -31,8 +31,8 @@ module.exports = {
       const encryptionKey = process.env.ENCRYPTUSERKEY;
       const iv = process.env.INITIALIZATIONVECTOR;
 
-      const { name, email, userRole } = user;
-      const selectedUser = { name, email, userRole };
+      const { name, email, userRole, _id } = user;
+      const selectedUser = { name, email, userRole, _id };
 
       const cipher = crypto.AES.encrypt(JSON.stringify(selectedUser), encryptionKey, { iv });
       return cipher.toString();

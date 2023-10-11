@@ -7,7 +7,8 @@ const socket = require('socket.io');
 const { connectDB } = require('./Src/Config/db');
 const routes = require('./Src/Routes');
 const { notFound, errorHandler } = require("./Src/Middlewares/errorHandler");
-const { AutherizedUser, verifyUser } = require('./Src/Middlewares/AuthMiddleWare');
+const { AutherizedUser } = require('./Src/Middlewares/AuthMiddleWare');
+const { addMessage } = require('./Src/Controllers/Chat/ChatController');
 
 dotenv.config();
 const corsOptions = {
@@ -37,11 +38,23 @@ const io = socket(Server, {
     methods: ["GET", "POST"]
   }
 }); //Initializing socket connction
-
 io.use(AutherizedUser);
-
 io.on("connection", (socket) => {
-  console.log(socket.id, "Connection created");
+  socket.on("join_room", (data) => { // accepting an event.  join_room : matching name with client side
+    console.log(data, "join_room "); //from client id room no 
+    socket.join(data);
+  });
+
+  socket.on("send_message", async (data) => { // accepting an event.  
+    console.log(data, "send_message ");
+    const content = { messageContent: data.message, sender: socket?.user?._id?.toString(), chat: data.room };
+
+    // call chat controller
+    const myMessages = await addMessage(content);
+    socket.to(data.room).emit("recieve_message", myMessages);
+    // socket.in(data.room).emit("recieve_message", myMessages);
+
+  });
 
   socket.on("disconnect", (reason) => {
     console.log(reason, "disconnect");
@@ -55,23 +68,6 @@ io.on("connection", (socket) => {
       }
     }
   });
-
-  socket.on("join_room", (data) => { // accepting an event.  join_room : matching name with client side
-    console.log(data, "join_room "); //from client id room no 
-    socket.join(data);
-  });
-
-  socket.on("send_message", (data) => { // accepting an event.  
-    console.log(data, "send_message ");
-    socket.to(data.room);
-  });
-
-  // socket.use(([event, ...args], next) => {   // middileware auth or not 
-  //   if (isUnauthorized(event)) {
-  //     return next(new Error("unauthorized event"));
-  //   }
-  //   next();
-  // });
 
   socket.on("error", (err) => {
     if (err && err.message === "unauthorized event") {
