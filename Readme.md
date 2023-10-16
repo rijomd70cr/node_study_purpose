@@ -25,4 +25,5 @@ UN_AUTHORIZED=
 1. Chat System 
     1.User Permission :- Admin and User 
     2.User Return :- encryption
-    3.Socket Connection
+    3.Socket Connection:- chat with users
+2. Using Keyword :- study folder
