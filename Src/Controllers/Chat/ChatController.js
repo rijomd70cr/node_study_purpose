@@ -1,9 +1,10 @@
 const MiscService = require("../../Services/MiscServices");
-const { findOutExistingChat, findOutMessages, createMessages } = require("../../Services/ChatService");
+const { findOutExistingChat, findOutMessages, createDbNames } = require("../../Services/ChatService");
 const { create } = require("../../General/CrudOperations");
 
 const modelName = "Chat";
 const modelMessage = "Message";
+const modelDbNames = "dbNames";
 
 
 const myChat = async (req, res) => {
@@ -61,4 +62,14 @@ const modifyMessage = (myMessages) => {
     return latestMessages;
 }
 
-module.exports = { myChat, addMessage }
+const changeDB = async (req, res) => {
+    let query = { fields: req.body, modelDbNames: modelDbNames, myDataBase: req.user?.myDataBase };
+    try {
+        await createDbNames(query);
+        res.status(200).json(MiscService.response(200, process.env.SUCCESS, {}));
+    } catch (error) {
+        res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
+    }
+}
+
+module.exports = { myChat, addMessage, changeDB }

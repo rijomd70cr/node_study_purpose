@@ -26,4 +26,7 @@ UN_AUTHORIZED=
     1.User Permission :- Admin and User 
     2.User Return :- encryption
     3.Socket Connection:- chat with users
+    4.Database :- Multiple Db connection
 2. Using Keyword :- study folder
+3. FAQChatBot
+    1.

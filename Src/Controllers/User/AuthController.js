@@ -1,6 +1,5 @@
 const UserService = require("../../Services/UserService");
 const MiscService = require("../../Services/MiscServices");
-const { connectMultiDB } = require('../../Config/db');
 
 
 module.exports = {
@@ -31,7 +30,7 @@ module.exports = {
         (passwordVerification = await MiscService.verifyPassword(user.password, User.password)),
           (token = MiscService.generateToken(User._id)),
           (selectedItemUser = await MiscService.generateUser(User)),
-        res.status(200).json(MiscService.response(200, process.env.SUCCESS, { token, selectedItemUser }))
+          res.status(200).json(MiscService.response(200, process.env.SUCCESS, { token, selectedItemUser }))
       }
       else {
         res.status(400).json(MiscService.response(400, process.env.NO_USER_FOUND, {}));
@@ -41,15 +40,5 @@ module.exports = {
       res.status(400).json(MiscService.response(400, error.error || process.env.WRONG_SOMETHING, {}));
     }
   },
-
-  changeDB: async (req, res) => {
-    let query = req.body;
-    try {
-      await connectMultiDB(query.dbName);
-      res.status(200).json(MiscService.response(200, process.env.SUCCESS, {}));
-    } catch (error) {
-      res.status(400).json(MiscService.response(400, process.env.WRONG_SOMETHING, {}));
-    }
-  }
 
 };

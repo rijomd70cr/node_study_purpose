@@ -24,6 +24,11 @@ const modelsPath = [
         modalName: "Chat",
         schemaName: "chatSchema",
         path: "chatModel"
+    },
+    {
+        modalName: "dbNames",
+        schemaName: "dbNamesSchema",
+        path: "dbNames"
     }
 ];
 
